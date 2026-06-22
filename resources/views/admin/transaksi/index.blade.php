@@ -85,7 +85,7 @@ $statusLabels = ['menunggu_konfirmasi'=>'Menunggu Konfirmasi','menunggu_bayar_te
                             </form>
                             @endif
                             @if($sewa->bukti_bayar)
-                            <a href="{{ Storage::url($sewa->bukti_bayar) }}" target="_blank"
+                            <a href="{{ str_starts_with($sewa->bukti_bayar, 'http') ? $sewa->bukti_bayar : Storage::url($sewa->bukti_bayar) }}" target="_blank"
                                class="text-xs bg-stone-100 hover:bg-stone-200 text-stone-700 px-2 py-1 rounded transition">Bukti</a>
                             @endif
                             @if($sewa->status === 'lunas')

@@ -43,7 +43,7 @@
             <label class="block text-sm font-medium text-stone-600 mb-1">Foto Baru (opsional)</label>
             @if($produk->foto)
             <div class="mb-2">
-                <img src="{{ Storage::url($produk->foto) }}" class="w-24 h-24 object-cover rounded-lg" alt="">
+                <img src="{{ str_starts_with($produk->foto, 'http') ? $produk->foto : Storage::url($produk->foto) }}" class="w-24 h-24 object-cover rounded-lg" alt="">
                 <p class="text-xs text-stone-400 mt-1">Foto saat ini</p>
             </div>
             @endif

@@ -10,7 +10,7 @@
     {{-- Foto --}}
     <div class="bg-[#D9CBB0] flex items-center justify-center min-h-72">
         @if($produk->foto)
-            <img src="{{ Storage::url($produk->foto) }}" alt="{{ $produk->nama }}" class="w-full h-full object-cover max-h-96">
+            <img src="{{ str_starts_with($produk->foto, 'http') ? $produk->foto : Storage::url($produk->foto) }}" alt="{{ $produk->nama }}" class="w-full h-full object-cover max-h-96">
         @else
             <span class="text-9xl">🎒</span>
         @endif

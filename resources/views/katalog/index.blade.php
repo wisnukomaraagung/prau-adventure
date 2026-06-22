@@ -44,7 +44,7 @@
        class="bg-white rounded-xl overflow-hidden shadow-sm hover:shadow-md transition group border border-stone-100">
         <div class="aspect-square overflow-hidden bg-[#D9CBB0]">
             @if($produk->foto)
-                <img src="{{ Storage::url($produk->foto) }}" alt="{{ $produk->nama }}"
+                <img src="{{ str_starts_with($produk->foto, 'http') ? $produk->foto : Storage::url($produk->foto) }}" alt="{{ $produk->nama }}"
                      class="w-full h-full object-cover group-hover:scale-105 transition duration-300">
             @else
                 <div class="w-full h-full flex items-center justify-center text-5xl">🎒</div>

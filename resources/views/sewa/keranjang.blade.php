@@ -33,7 +33,7 @@
             <div class="bg-white rounded-xl shadow-sm p-4 flex items-start gap-4 border border-stone-100">
                 <div class="w-20 h-20 bg-[#D9CBB0] rounded-lg flex-shrink-0 flex items-center justify-center overflow-hidden">
                     @if($item['foto'])
-                        <img src="{{ Storage::url($item['foto']) }}" class="w-full h-full object-cover" alt="{{ $item['nama'] }}">
+                        <img src="{{ str_starts_with($item['foto'], 'http') ? $item['foto'] : Storage::url($item['foto']) }}" class="w-full h-full object-cover" alt="{{ $item['nama'] }}">
                     @else
                         <span class="text-3xl">🎒</span>
                     @endif

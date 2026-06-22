@@ -28,7 +28,7 @@
                 <td class="px-4 py-3">
                     <div class="w-12 h-12 bg-[#D9CBB0] rounded-lg overflow-hidden flex items-center justify-center">
                         @if($produk->foto)
-                            <img src="{{ Storage::url($produk->foto) }}" class="w-full h-full object-cover" alt="">
+                            <img src="{{ str_starts_with($produk->foto, 'http') ? $produk->foto : Storage::url($produk->foto) }}" class="w-full h-full object-cover" alt="">
                         @else
                             <span>🎒</span>
                         @endif
