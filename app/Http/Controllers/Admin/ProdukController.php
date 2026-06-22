@@ -6,7 +6,6 @@ use App\Http\Controllers\Controller;
 use App\Models\Kategori;
 use App\Models\Produk;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Storage;
 
 class ProdukController extends Controller
 {
@@ -43,7 +42,9 @@ class ProdukController extends Controller
 
         if ($request->hasFile('foto')) {
             $path = $request->file('foto')->store('produk', 'cloudinary');
-            $data['foto'] = Storage::disk('cloudinary')->url($path);
+            // Bangun URL Cloudinary penuh karena url() bisa mengembalikan path relatif
+            $cloudName = config('filesystems.disks.cloudinary.cloud_name');
+            $data['foto'] = "https://res.cloudinary.com/{$cloudName}/image/upload/{$path}";
         }
 
         Produk::create($data);
@@ -75,7 +76,9 @@ class ProdukController extends Controller
 
         if ($request->hasFile('foto')) {
             $path = $request->file('foto')->store('produk', 'cloudinary');
-            $data['foto'] = Storage::disk('cloudinary')->url($path);
+            // Bangun URL Cloudinary penuh karena url() bisa mengembalikan path relatif
+            $cloudName = config('filesystems.disks.cloudinary.cloud_name');
+            $data['foto'] = "https://res.cloudinary.com/{$cloudName}/image/upload/{$path}";
         }
 
         $produk->update($data);
