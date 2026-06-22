@@ -43,16 +43,20 @@ class ProdukController extends Controller
 
         if ($request->hasFile('foto')) {
             $disk = Storage::disk('cloudinary');
-            $path = $request->file('foto')->store('produk', 'cloudinary');
-            // Ambil secure_url langsung dari response Cloudinary setelah upload
+            $file = $request->file('foto');
+            // Simpan dengan nama tanpa ekstensi untuk hindari double ekstensi di Cloudinary
+            $uniqueName = uniqid('foto_', true);
+            $path = $file->storeAs('produk', $uniqueName, 'cloudinary');
+            // Ambil version dari metadata untuk build URL Cloudinary yang valid
             $adapter = $disk->getAdapter();
             $meta = $adapter->lastUploadMetadata();
-            if ($meta && !empty($meta['secure_url'] ?? null)) {
-                $data['foto'] = $meta['secure_url'];
+            $cloudName = config('filesystems.disks.cloudinary.cloud_name');
+            $version = $meta['version'] ?? null;
+            $filePath = $meta['path'] ?? $path;
+            if ($version) {
+                $data['foto'] = "https://res.cloudinary.com/{$cloudName}/image/upload/v{$version}/{$filePath}";
             } else {
-                // Fallback: build URL manual
-                $cloudName = config('filesystems.disks.cloudinary.cloud_name');
-                $data['foto'] = "https://res.cloudinary.com/{$cloudName}/image/upload/{$path}";
+                $data['foto'] = "https://res.cloudinary.com/{$cloudName}/image/upload/{$filePath}";
             }
         }
 
@@ -85,16 +89,20 @@ class ProdukController extends Controller
 
         if ($request->hasFile('foto')) {
             $disk = Storage::disk('cloudinary');
-            $path = $request->file('foto')->store('produk', 'cloudinary');
-            // Ambil secure_url langsung dari response Cloudinary setelah upload
+            $file = $request->file('foto');
+            // Simpan dengan nama tanpa ekstensi untuk hindari double ekstensi di Cloudinary
+            $uniqueName = uniqid('foto_', true);
+            $path = $file->storeAs('produk', $uniqueName, 'cloudinary');
+            // Ambil version dari metadata untuk build URL Cloudinary yang valid
             $adapter = $disk->getAdapter();
             $meta = $adapter->lastUploadMetadata();
-            if ($meta && !empty($meta['secure_url'] ?? null)) {
-                $data['foto'] = $meta['secure_url'];
+            $cloudName = config('filesystems.disks.cloudinary.cloud_name');
+            $version = $meta['version'] ?? null;
+            $filePath = $meta['path'] ?? $path;
+            if ($version) {
+                $data['foto'] = "https://res.cloudinary.com/{$cloudName}/image/upload/v{$version}/{$filePath}";
             } else {
-                // Fallback: build URL manual
-                $cloudName = config('filesystems.disks.cloudinary.cloud_name');
-                $data['foto'] = "https://res.cloudinary.com/{$cloudName}/image/upload/{$path}";
+                $data['foto'] = "https://res.cloudinary.com/{$cloudName}/image/upload/{$filePath}";
             }
         }
 
