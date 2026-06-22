@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\Kategori;
 use App\Models\Produk;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
 
 class ProdukController extends Controller
 {
@@ -41,10 +42,18 @@ class ProdukController extends Controller
         ]);
 
         if ($request->hasFile('foto')) {
+            $disk = Storage::disk('cloudinary');
             $path = $request->file('foto')->store('produk', 'cloudinary');
-            // Bangun URL Cloudinary penuh karena url() bisa mengembalikan path relatif
-            $cloudName = config('filesystems.disks.cloudinary.cloud_name');
-            $data['foto'] = "https://res.cloudinary.com/{$cloudName}/image/upload/{$path}";
+            // Ambil secure_url langsung dari response Cloudinary setelah upload
+            $adapter = $disk->getAdapter();
+            $meta = $adapter->lastUploadMetadata();
+            if ($meta && !empty($meta['secure_url'] ?? null)) {
+                $data['foto'] = $meta['secure_url'];
+            } else {
+                // Fallback: build URL manual
+                $cloudName = config('filesystems.disks.cloudinary.cloud_name');
+                $data['foto'] = "https://res.cloudinary.com/{$cloudName}/image/upload/{$path}";
+            }
         }
 
         Produk::create($data);
@@ -75,10 +84,18 @@ class ProdukController extends Controller
         ]);
 
         if ($request->hasFile('foto')) {
+            $disk = Storage::disk('cloudinary');
             $path = $request->file('foto')->store('produk', 'cloudinary');
-            // Bangun URL Cloudinary penuh karena url() bisa mengembalikan path relatif
-            $cloudName = config('filesystems.disks.cloudinary.cloud_name');
-            $data['foto'] = "https://res.cloudinary.com/{$cloudName}/image/upload/{$path}";
+            // Ambil secure_url langsung dari response Cloudinary setelah upload
+            $adapter = $disk->getAdapter();
+            $meta = $adapter->lastUploadMetadata();
+            if ($meta && !empty($meta['secure_url'] ?? null)) {
+                $data['foto'] = $meta['secure_url'];
+            } else {
+                // Fallback: build URL manual
+                $cloudName = config('filesystems.disks.cloudinary.cloud_name');
+                $data['foto'] = "https://res.cloudinary.com/{$cloudName}/image/upload/{$path}";
+            }
         }
 
         $produk->update($data);
