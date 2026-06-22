@@ -9,7 +9,7 @@
         "php": "^8.4",
         "ext-gd": "*",
         "barryvdh/laravel-dompdf": "^3.1",
-        "cloudinarylabs/cloudinary-laravel": "^2.1",
+        "codebar-ag/laravel-flysystem-cloudinary": "^13.0",
         "laravel/breeze": "^2.4",
         "laravel/framework": "^13.8",
         "laravel/tinker": "^3.0",

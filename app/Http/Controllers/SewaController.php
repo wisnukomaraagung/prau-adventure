@@ -100,7 +100,8 @@ class SewaController extends Controller
 
         $buktiBayarPath = null;
         if ($request->hasFile('bukti_bayar')) {
-            $buktiBayarPath = $request->file('bukti_bayar')->storeOnCloudinary('bukti_bayar')->getSecurePath();
+            $bPath = $request->file('bukti_bayar')->store('bukti_bayar', 'cloudinary');
+            $buktiBayarPath = Storage::disk('cloudinary')->url($bPath);
         }
 
         DB::transaction(function () use ($request, $keranjang, $totalHarga, $firstItem, $status, $buktiBayarPath) {

@@ -42,7 +42,8 @@ class ProdukController extends Controller
         ]);
 
         if ($request->hasFile('foto')) {
-            $data['foto'] = $request->file('foto')->storeOnCloudinary('produk')->getSecurePath();
+            $path = $request->file('foto')->store('produk', 'cloudinary');
+            $data['foto'] = Storage::disk('cloudinary')->url($path);
         }
 
         Produk::create($data);
@@ -73,7 +74,8 @@ class ProdukController extends Controller
         ]);
 
         if ($request->hasFile('foto')) {
-            $data['foto'] = $request->file('foto')->storeOnCloudinary('produk')->getSecurePath();
+            $path = $request->file('foto')->store('produk', 'cloudinary');
+            $data['foto'] = Storage::disk('cloudinary')->url($path);
         }
 
         $produk->update($data);
